@@ -261,7 +261,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             for (int i =userTransaction.size()-1;i>=0;i--) {
                 userInfo info = userTransaction.get(i);
                 LocalDate date = info.getDate();
-                //capstone
+                //capstone m
                 //  LocalDate date=LocalDate.now();
                 //LocalDate firstDay = LocalDate.now().minusMonths(1).withDayOfMonth(1);
                 //LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
