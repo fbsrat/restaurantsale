@@ -14,40 +14,41 @@ public class Main {
        // ArrayList<userInfo> userTransaction=new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
-            System.out.println("----------welcome to the transactions application----------");
+                homePage(userTransaction,scanner);
+                ledger(userTransaction, scanner);
+                askUserToContinue(userTransaction, scanner);
+
+    }
+    public static void homePage(ArrayList<userInfo> userTransaction,Scanner scanner){
+
+
+        System.out.println("----------welcome to the transactions application----------");
         System.out.println();
         System.out.println(
                 "press(h) to navigate home screen\n" +
-                "press(l) to navigate ledger\n" +
-                "press(r) to navigat reports\n" +
-                "press (x) to exit the application\n");
-            System.out.println("H,Home Screen");
-            System.out.println("L,Ledger");
-            System.out.println("R,Reports");
-            System.out.print(" choose the letter option ");
-            boolean running=true;
-            while (running) {
-                String userChoiceOfLetter = scanner.nextLine();
-                if (userChoiceOfLetter.equalsIgnoreCase("h")) {
-                    homeScreen(userTransaction, scanner);
-                } else if (userChoiceOfLetter.equalsIgnoreCase("l")) {
-                    ledger(userTransaction, scanner);
-                } else if (userChoiceOfLetter.equalsIgnoreCase("r")) {
-                    navigateToReports(userTransaction, scanner);
-                }
-                else if (userChoiceOfLetter.equalsIgnoreCase("x")){
-                 System.exit(0) ;
-
-                }
-
-                else
-                {
-                    System.out.println("please enter the correct letter either h , l ,r ");
-                }
+                        "press(l) to navigate ledger\n" +
+                        "press (x) to exit the application\n");
+        System.out.println("H,Home Screen");
+        System.out.println("L,Ledger");
+        System.out.print(" choose the letter option ");
+        boolean running=true;
+        while (running) {
+            String userChoiceOfLetter = scanner.nextLine();
+            if (userChoiceOfLetter.equalsIgnoreCase("h")) {
+                homeScreen(userTransaction, scanner);
+            } else if (userChoiceOfLetter.equalsIgnoreCase("l")) {
                 ledger(userTransaction, scanner);
-
-                askUserToContinue(userTransaction, scanner);
             }
+             else if (userChoiceOfLetter.equalsIgnoreCase("x")) {
+                System.exit(0);
+
+            } else {
+                System.out.println("please enter the correct letter either h , l ,r ");
+            }
+
+        }
+
+goBackToHomePage(userTransaction,scanner);
     }
     public static void homeScreen( ArrayList <userInfo> userTransaction,Scanner scanner){
         String userChoiceOfLetter = "";
@@ -79,7 +80,7 @@ public class Main {
                     ledger(userTransaction,scanner);
                     break;
                 case "x":
-                    exitTheApplication(userTransaction);
+                    exitTheApplication(userTransaction , scanner);
                     break;
                 default:
                     System.out.println("please enter the correct letter");
@@ -144,7 +145,7 @@ public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanne
     askUserToContinue(userTransaction,scanner);
 }
 public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
-    System.out.println("-- welcome to ledge page --");
+    System.out.println("-- welcome to ledge screen --");
     System.out.println(" The ledge screen helps user to see their all transactions including\n" +
             "deposit transaction specifically and payment transactions ");
     System.out.println();
@@ -179,10 +180,9 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
             System.out.println(" please enter either a , d , p , r");
         }
 
-        goBackToHomePage(userTransaction,scanner);
     }
 }
-public static void exitTheApplication(ArrayList<userInfo>useraTranaction){
+public static void exitTheApplication(ArrayList<userInfo>useraTranaction , Scanner scanner){
     System.out.println("Thank you for using the application");
     System.exit(0);
 
@@ -223,8 +223,7 @@ public static void showAllEntries(ArrayList<userInfo>userTransaction, Scanner sc
             System.out.println(userTransaction.get(i));
             //for (userInfo info :userTransaction)
         }
-        goBackToHomePage(userTransaction,scanner);
-
+whatDoesTheUserWantsToDoNext(userTransaction,scanner);
 }
 public  static void displayAllTheDeposits(ArrayList<userInfo> userTransaction, Scanner scanner){
         for (int i =userTransaction.size()-1;i>=0;i--){
@@ -233,7 +232,7 @@ public  static void displayAllTheDeposits(ArrayList<userInfo> userTransaction, S
              System.out.println(info);
             }
         }
-goBackToHomePage(userTransaction,scanner);
+whatDoesTheUserWantsToDoNext(userTransaction,scanner);
 }
 public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanner scanner) {
     for (int i = userTransaction.size() - 1; i >= 0; i--) {
@@ -243,9 +242,9 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
 
         }
     }
-    goBackToHomePage(userTransaction,scanner);
+    whatDoesTheUserWantsToDoNext(userTransaction,scanner);
 }
-        public static void navigateToReports (ArrayList<userInfo> userTransaction, Scanner scanner){
+        public static void navigateToReports (ArrayList<userInfo> userTransaction, Scanner scanner) {
             System.out.println("-----welcome to report screen----");
             System.out.println("The report screen helps users to find review their transaction.\n" +
                     "they can search by date range,vendor name to see \n" +
@@ -267,37 +266,41 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             System.out.println("6, custom search");
             System.out.println("0, back to ledger page");
             System.out.print("please choose an option ");
-            while (true){
-           String usersChoiceOfChoice=scanner.nextLine();
-            int userChoice=Integer.parseInt(usersChoiceOfChoice);
-            if (usersChoiceOfChoice.equals("1")){
-                monthToDate(userTransaction,scanner);
-            }
-            else if (usersChoiceOfChoice.equals("2")) {
-                previousMonth(userTransaction,scanner);
-            }
-            else if( usersChoiceOfChoice.equals("3"))
-            {
-             yearToDate( userTransaction,scanner);
-            }
-         else if(usersChoiceOfChoice.equals("4")){
-           previousYear(userTransaction,scanner);
-            }
-         else if(usersChoiceOfChoice.equals("5")){
-             searchByVendor(userTransaction,scanner);
-            }
-         else if (usersChoiceOfChoice.equals("6")){
-             customSearch(userTransaction,scanner);
-            }
-         else if (usersChoiceOfChoice.equals("0")) {
-             backToLedgerPage(userTransaction,scanner);
-             return;
-            }
-         else {
-                System.out.println("please enter numbers 0 to 6");
-            }
+            while (true) {
+                String usersChoiceOfChoice = scanner.nextLine();
+                try{
+                int userChoice = Integer.parseInt(usersChoiceOfChoice);
+
+                  userChoice=Integer.parseInt(usersChoiceOfChoice);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("please enter numbers 1 to 6");
+                    continue;
+                }
+                if (usersChoiceOfChoice.equals("1")) {
+                    monthToDate(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("2")) {
+                    previousMonth(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("3")) {
+                    yearToDate(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("4")) {
+                    previousYear(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("5")) {
+                    searchByVendor(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("6")) {
+                    customSearch(userTransaction, scanner);
+                } else if (usersChoiceOfChoice.equals("0")) {
+                    backToLedgerPage(userTransaction, scanner);
+                    return;
+                } else {
+                    System.out.println("please enter numbers 0 to 6");
+                }
+
+            whatDoesTheUserWantsToDoNext(userTransaction, scanner);
+
         }
-        }
+    }
+
         public static void monthToDate(ArrayList<userInfo>userTransaction,Scanner scanner){
       LocalDate  today=LocalDate.now();
       LocalDate firstDaYOfMonth= today.withDayOfMonth(1);
@@ -313,8 +316,8 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                     System.out.println(" no transaction found");
                 }
             }
-            goBackToHomePage(userTransaction,scanner);
 
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
         public static void previousMonth(ArrayList<userInfo>userTransaction, Scanner scanner ){
             LocalDate firstDay = LocalDate.now().minusMonths(1).withDayOfMonth(1);
@@ -332,7 +335,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                 if ((!found)) {
                     System.out.println(" no transaction found");
                 }
-                goBackToHomePage(userTransaction,scanner);
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
             }
 
         public static void yearToDate(ArrayList<userInfo> userTransaction , Scanner scanner){
@@ -352,7 +355,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                 }
 
             }
-            goBackToHomePage(userTransaction,scanner);
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
         public static void previousYear(ArrayList< userInfo> userTransaction ,Scanner scanner){
         Year lastYear=Year.now().minusYears(1);
@@ -368,7 +371,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             if (!found){
                 System.out.println("no transaction found");
             }
-            goBackToHomePage(userTransaction,scanner);
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
         public static void searchByVendor(ArrayList<userInfo>userTransaction, Scanner scanner){
             System.out.print("---please enter the vendor name--- ");
@@ -384,23 +387,29 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             if(!found){
                 System.out.println(" no transaction found");
             }
-            goBackToHomePage(userTransaction,scanner);
+
         }
         public static void backToLedgerPage(ArrayList<userInfo>userTransaction,Scanner scanner){
-            System.out.println(" you are going back to ledger page");
-            System.out.println("enter (l) to go back to ledger ");
-            String userChoiceOfLetter=scanner.nextLine().trim();
+          //  System.out.println("enter (0) to go back to ledger");
+          //  String userChoiceOfLetter =scanner.nextLine().trim();
             ledger(userTransaction,scanner);
         }
         public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner){
 
             System.out.println();
             System.out.println("---welcome to the custom search---");
-            System.out.println("S, custom search by start date");
-            System.out.println("E, custom search by end date");
-            System.out.println("D, custom search by description");
-            System.out.println("V, custom search by vendor");
-            System.out.println("A, custom search by amount");
+            System.out.println();
+            System.out.println("---Instructions---");
+            System.out.println("press(s) to custom search by date\n" +
+                    "press(e) to custom search by end date\n" +
+                    "press(D) to custom search by description\n" +
+                    "press(v) to custom search by vendor name\n" +
+                    "press (a) to custom search by amount\n");
+            System.out.println("s, custom search by start date");
+            System.out.println("s, custom search by end date");
+            System.out.println("d, custom search by description");
+            System.out.println("v, custom search by vendor");
+            System.out.println("a, custom search by amount");
             System.out.print("please choose an option");
             String userChoiceOfLetter=scanner.nextLine();
 
@@ -428,17 +437,22 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                     System.out.println(" please enter letter either s,e,d,v,a");
                     goBackToHomePage(userTransaction,scanner);
                 }
-        }
-        public static void  customByStartDate(ArrayList<userInfo> usertransaction,Scanner scanner){
+
+        whatDoesTheUserWantsToDoNext(userTransaction,scanner);
+    }
+        public static void  customByStartDate(ArrayList<userInfo> userTransaction,Scanner scanner){
             //System.out.println("--- custom by start date show transactions after given date---");
             System.out.print("please enter the date(yyyy-MM-dd)");
             LocalDate startDate=LocalDate.parse(scanner.nextLine().trim());
-        for (userInfo info  : usertransaction ){
-            if (!info.getDate().isBefore(startDate)){
+        for (userInfo info  : userTransaction ) {
+            if (!info.getDate().isBefore(startDate)) {
                 System.out.println(info);
             }
         }
+        whatDoesTheUserWantsToDoNext(userTransaction,scanner);
+
         }
+
         public static void customByEndDate(ArrayList<userInfo>userTransaction,Scanner scanner){
             System.out.println();
             System.out.println("--custom search  by end date(yyyy-MM-dd");
@@ -448,7 +462,9 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                     System.out.println(info);
                 }
             }
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
+
         public static void customByDescription(ArrayList<userInfo> userTransaction , Scanner scanner){
             System.out.print("---please enter the description name--- ");
             String description = scanner.nextLine();
@@ -463,6 +479,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             if (!found) {
                 System.out.println(" no transaction found");
             }
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
         public static void customByVendor(ArrayList<userInfo>userTransaction,Scanner scanner) {
             System.out.print("---please enter the vendor name--- ");
@@ -478,6 +495,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             if (!found) {
                 System.out.println(" no transaction found");
             }
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
         public static void customByAmount(ArrayList<userInfo>userTransaction,Scanner scanner){
             System.out.print("---please enter the amount--- ");
@@ -493,16 +511,18 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             if (!found) {
                 System.out.println(" no transaction found");
             }
+            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
 public static void goBackToHomePage(ArrayList<userInfo> userTransaction,Scanner scanner){
-    System.out.println(" press h to go back home screen");
+    System.out.println(" press g to go back home page");
     String choice=scanner.nextLine().trim();
-    if (choice.equalsIgnoreCase("h")){
-        homeScreen(userTransaction,scanner);
+    if (choice.equalsIgnoreCase("g")){
+        homePage(userTransaction,scanner);
     }
     else {
         System.out.println(" please enter h to back to home screen");
     }
+
 }
 public static void askUserToContinue(ArrayList<userInfo> userTransaction ,Scanner scanner) {
     System.out.println(" hello , press(d) for deposit,(p) for payment," +
@@ -523,6 +543,28 @@ public static void askUserToContinue(ArrayList<userInfo> userTransaction ,Scanne
     }
      else{
         System.out.println(" please enter the correct option ");
+    }
+}
+public static void whatDoesTheUserWantsToDoNext(ArrayList<userInfo>userTransaction,Scanner scanner){
+    System.out.println("enter (0) to go back to ledger page");
+    System.out.println("enter (g) to go back to home page ");
+    System.out.println(" enter (x) to exit the application");
+    System.out.print("enter the option");
+    String choiceOfLetter=scanner.nextLine().trim();
+    if(choiceOfLetter.equalsIgnoreCase("0")) {
+        backToLedgerPage(userTransaction, scanner);
+        return;
+    }
+    else if(choiceOfLetter.equalsIgnoreCase("g")){
+        goBackToHomePage(userTransaction,scanner);
+        return;
+    }
+    else if(choiceOfLetter.equalsIgnoreCase("x")){
+        exitTheApplication(userTransaction,scanner);
+        return;
+    }
+    else {
+        System.out.println(" please enter (0), (g)");
     }
 }
     }
