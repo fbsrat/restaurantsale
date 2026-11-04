@@ -2,6 +2,7 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,7 +33,7 @@ public class Main {
             } else {
                 System.out.println("please enter the correct letter either h , l ,r ");
             }
-
+                ledger(userTransaction,scanner);
         }
     }
     public static void homeScreen( ArrayList <userInfo> userTransaction,Scanner scanner){
@@ -112,6 +113,7 @@ public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanne
     }
 }
 public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
+    while (true){
     System.out.println();
     System.out.println("a , display all transaction");
     System.out.println("d , display all the deposits");
@@ -120,7 +122,7 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
     System.out.print(" please enter option ");
     //String userChoiceOfLetter = scanner.nextLine();
 
-    while (true){
+    //while (true){
         String userChoiceOfLetter = scanner.nextLine();
         if (userChoiceOfLetter.equalsIgnoreCase("a")){
             showAllEntries(userTransaction,scanner);
@@ -131,6 +133,7 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
         }
         else if(userChoiceOfLetter.equalsIgnoreCase("r")){
             navigateToReports(userTransaction,scanner);
+          //  ledger(userTransaction,scanner);
         }
         else {
             System.out.println(" please enter either a , d , p , r");
@@ -230,6 +233,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             }
          else if (usersChoiceOfChoice.equals("0")) {
              backToLedgerPage(userTransaction,scanner);
+             return;
             }
          else {
                 System.out.println("please enter numbers 0 to 6");
@@ -261,12 +265,6 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             for (int i =userTransaction.size()-1;i>=0;i--) {
                 userInfo info = userTransaction.get(i);
                 LocalDate date = info.getDate();
-                //capstone m
-                //  LocalDate date=LocalDate.now();
-                //LocalDate firstDay = LocalDate.now().minusMonths(1).withDayOfMonth(1);
-                //LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
-                //boolean found = false;
-
                 if (!date.isBefore(firstDay) && !date.isAfter(lastDay)) {
                     found = true;
                     System.out.println(info);
@@ -278,16 +276,55 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             }
 
         public static void yearToDate(ArrayList<userInfo> userTransaction,Scanner scanner){
+        LocalDate today=LocalDate.now();
+        LocalDate firstDayOfTheTear=today.withDayOfYear(1);
+        boolean found=false;
 
+            for (int i =userTransaction.size()-1;i>=0;i--) {
+                userInfo info = userTransaction.get(i);
+                LocalDate date = info.getDate();
+                if ((!date.isBefore(firstDayOfTheTear)&&!date.isAfter(today))){
+                    System.out.println(info);
+                    found=true;
+                }
+                if (!found){
+                    System.out.println("transaction not found");
+                }
+
+            }
         }
         public static void previousYear(ArrayList< userInfo> userTransaction , Scanner scanner){
-
+        Year lastYear=Year.now().minusYears(1);
+        boolean found = false;
+            for (int i =userTransaction.size()-1;i>=0;i--) {
+                userInfo info = userTransaction.get(i);
+                Year transactionYear=Year.from(info.getDate());
+                if(transactionYear.equals(lastYear)){
+                    System.out.println(info);
+                    found=true;
+                }
+            }
+            if (!found){
+                System.out.println("no transaction found");
+            }
         }
         public static void searchByVendor(ArrayList<userInfo>userTransaction, Scanner scanner){
-
+            System.out.print("---please enter the vendor name--- ");
+            String vendorName=scanner.nextLine();
+            boolean found = false;
+            for (int i =userTransaction.size()-1;i>=0;i--){
+                userInfo info = userTransaction.get(i);
+                if (info.getVendor().equalsIgnoreCase(vendorName)){
+                    System.out.println(info);
+                    found=true;
+                }
+            }
+            if(!found){
+                System.out.println(" no transaction found");
+            }
         }
         public static void backToLedgerPage(ArrayList<userInfo>userTransaction,Scanner scanner){
-
+            System.out.println(" you are going back to ledger page");
         }
         public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner){
 
