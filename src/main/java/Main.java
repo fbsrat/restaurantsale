@@ -93,7 +93,7 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
         e.printStackTrace();
 
     }
-    System.out.println(" your file is saved succesfully");
+    System.out.println(" your file is saved successfully");
 }
 public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanner){
 
