@@ -24,24 +24,26 @@ public class Main {
             System.out.println("R,Reports");
             System.out.print(" choose the letter option ");
             while (true) {
-            String userChoiceOfLetter = scanner.nextLine();
-            if (userChoiceOfLetter.equalsIgnoreCase("h")) {
-                homeScreen(userTransaction, scanner);
-            } else if (userChoiceOfLetter.equalsIgnoreCase("l")) {
+                String userChoiceOfLetter = scanner.nextLine();
+                if (userChoiceOfLetter.equalsIgnoreCase("h")) {
+                    homeScreen(userTransaction, scanner);
+                } else if (userChoiceOfLetter.equalsIgnoreCase("l")) {
+                    ledger(userTransaction, scanner);
+                } else if (userChoiceOfLetter.equalsIgnoreCase("r")) {
+                    navigateToReports(userTransaction, scanner);
+                } else {
+                    System.out.println("please enter the correct letter either h , l ,r ");
+                }
                 ledger(userTransaction, scanner);
-            } else if (userChoiceOfLetter.equalsIgnoreCase("r")) {
-                navigateToReports(userTransaction, scanner);
-            } else {
-                System.out.println("please enter the correct letter either h , l ,r ");
+
+                askUserToContinue(userTransaction, scanner);
             }
-                ledger(userTransaction,scanner);
-        }
     }
     public static void homeScreen( ArrayList <userInfo> userTransaction,Scanner scanner){
         String userChoiceOfLetter = "";
         //Scanner scanner = new Scanner(System.in);
         // Display menu options until the user selects Exit.
-        while (!userChoiceOfLetter.equals("x")) {
+       // while (!userChoiceOfLetter.equals("x")) {
             System.out.println();
             System.out.println("----welcome to home screen------");
             System.out.println("d, add deposit");
@@ -49,7 +51,7 @@ public class Main {
             System.out.println("l, ledger");
             System.out.println("X, exist from application");
             System.out.print("please enter the correct letter : ");
-
+            while (!userChoiceOfLetter.equals("x")) {
             userChoiceOfLetter = scanner.nextLine().trim().toLowerCase();
             switch (userChoiceOfLetter){
                 case "d":
@@ -458,6 +460,21 @@ public static void goBackToHomeScreen(ArrayList<userInfo> userTransaction,Scanne
         System.out.println(" please enter h to back to home screen");
     }
 
-//
+}
+public static void askUserToContinue(ArrayList<userInfo> userTransaction ,Scanner scanner){
+    System.out.println("press(d) for deposit,(p) for payment,(l) ledger to continue");
+    String userChoiceOfLetter=scanner.nextLine();
+    if (userChoiceOfLetter.equalsIgnoreCase("x")){
+        System.out.println("you are exising from the program");
+        System.exit(0);
+    }
+    else if( userChoiceOfLetter.equalsIgnoreCase("d")
+            ||userChoiceOfLetter.equalsIgnoreCase("p")
+            ||userChoiceOfLetter.equalsIgnoreCase("l")){
+        homeScreen(userTransaction, scanner);
+    }
+    else {
+        System.out.println("press(d) for deposit,(p) for payment,(l) ledger to continue");
+    }
 }
     }
