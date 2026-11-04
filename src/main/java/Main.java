@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.Collections;
 
+import static java.awt.Color.white;
 import static java.awt.SystemColor.info;
 
 public class Main {
@@ -327,11 +328,62 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             System.out.println(" you are going back to ledger page");
         }
         public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner){
+            while(true){
             System.out.println();
             System.out.println("---welcome to the custom search---");
+            System.out.println("S, custom search by start date");
+            System.out.println("E, custom search by end date");
+            System.out.println("D, custom search by description");
+            System.out.println("V, custom search by vendor");
+            System.out.println("A, custom search by amount");
+            System.out.print("please choose an option");
+            String userChoiceOfLetter=scanner.nextLine();
 
+                if (userChoiceOfLetter.equalsIgnoreCase("s")){
+                  customByStartDate(userTransaction,scanner) ;
+                }
+                else if (userChoiceOfLetter.equalsIgnoreCase("e")){
+                    customByEndDate(userTransaction,scanner);
+                }
+                else if (userChoiceOfLetter.equalsIgnoreCase("d")){
+                    customByDescriptio( userTransaction,scanner);
+                }
+                else if (userChoiceOfLetter.equalsIgnoreCase("v")){
+                    customByVendor(userTransaction,scanner);
+                }
+                else if  (userChoiceOfLetter.equalsIgnoreCase("a")){
+                    customByAmount(userTransaction,scanner);
+                }
+                else{
+                    System.out.println(" please enter letter either s,e,d,v,a");
+                }
+
+            }
         }
 
+        public static void  customByStartDate(ArrayList<userInfo> usertransaction,Scanner scanner){
+            System.out.println("--- custom by start date show transactions after given date---");
+            System.out.print("please enter the date(yyyy-MM-dd)");
+            LocalDate startDate=LocalDate.parse(scanner.nextLine().trim());
+        for (userInfo info  : usertransaction ){
+            if (!info.getDate().isBefore(startDate)){
+                System.out.println(info);
+            }
+        }
+        }
+        public static void customByEndDate(ArrayList<userInfo>userTransaction,Scanner scanner){
+            System.out.println();
+
+        }
+        public static void customByDescriptio(ArrayList<userInfo> userTranaction , Scanner scanner){
+
+        }
+        public static void customByVendor(ArrayList<userInfo>usetTranaction,Scanner scanner){
+
+        }
+        public static void customByAmount(ArrayList<userInfo>userTransaction,Scanner scanner){
+
+        }
 public static void goBackToHomeScreen(ArrayList<userInfo> userTransaction,Scanner scanner){
 
 }
