@@ -256,7 +256,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
         public static void previousMonth(ArrayList<userInfo>userTransaction,Scanner scanner){
             LocalDate firstDay = LocalDate.now().minusMonths(1).withDayOfMonth(1);
             LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
-            boolean found = false;
+            boolean found = false;//adding boolean
 
             for (int i =userTransaction.size()-1;i>=0;i--) {
                 userInfo info = userTransaction.get(i);
