@@ -327,6 +327,8 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             System.out.println(" you are going back to ledger page");
         }
         public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner){
+            System.out.println();
+            System.out.println("---welcome to the custom search---");
 
         }
 
