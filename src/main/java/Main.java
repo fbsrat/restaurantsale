@@ -328,7 +328,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             System.out.println(" you are going back to ledger page");
         }
         public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner){
-            while(true){
+
             System.out.println();
             System.out.println("---welcome to the custom search---");
             System.out.println("S, custom search by start date");
@@ -338,27 +338,33 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             System.out.println("A, custom search by amount");
             System.out.print("please choose an option");
             String userChoiceOfLetter=scanner.nextLine();
-
+               // while(true){
                 if (userChoiceOfLetter.equalsIgnoreCase("s")){
                   customByStartDate(userTransaction,scanner) ;
+                  goBackToHomeScreen(userTransaction,scanner);
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("e")){
                     customByEndDate(userTransaction,scanner);
+                    goBackToHomeScreen(userTransaction,scanner);
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("d")){
                     customByDescription( userTransaction,scanner);
+                    goBackToHomeScreen(userTransaction,scanner);
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("v")){
                     customByVendor(userTransaction,scanner);
+                    goBackToHomeScreen(userTransaction,scanner);
                 }
                 else if  (userChoiceOfLetter.equalsIgnoreCase("a")){
                     customByAmount(userTransaction,scanner);
+                    goBackToHomeScreen(userTransaction,scanner);
                 }
                 else{
                     System.out.println(" please enter letter either s,e,d,v,a");
+                    goBackToHomeScreen(userTransaction,scanner);
                 }
 
-            }
+           // }
         }
         public static void  customByStartDate(ArrayList<userInfo> usertransaction,Scanner scanner){
             //System.out.println("--- custom by start date show transactions after given date---");
@@ -428,6 +434,15 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
 
         }
 public static void goBackToHomeScreen(ArrayList<userInfo> userTransaction,Scanner scanner){
+    System.out.println(" press h to go back screen");
+    String choice=scanner.nextLine().trim();
+    if (choice.equalsIgnoreCase("h")){
+        homeScreen(userTransaction,scanner);
+    }
+    else {
+        System.out.println(" please enter h to back to home screen");
+    }
+
 
 }
     }
