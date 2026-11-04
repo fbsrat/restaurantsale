@@ -47,8 +47,9 @@ public class Main {
             System.out.println("d, add deposit");
             System.out.println("p, make payment");
             System.out.println("l, ledger");
-            System.out.println("X, exist from homes creen");
+            System.out.println("X, exist from application");
             System.out.print("please enter the correct letter : ");
+
             userChoiceOfLetter = scanner.nextLine().trim().toLowerCase();
             switch (userChoiceOfLetter){
                 case "d":
@@ -59,6 +60,10 @@ public class Main {
                     break;
                 case "l":
                     ledger(userTransaction,scanner);
+                    break;
+                case "x":
+                    exitTheApplication(userTransaction,scanner);
+                    break;
                 default:
                     System.out.println("please enter the correct letter");
             }
@@ -88,6 +93,7 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
         e.printStackTrace();
 
     }
+    System.out.println(" your file is saved succesfully");
 }
 public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanner){
 
@@ -116,11 +122,13 @@ public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanne
 public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
     while (true){
     System.out.println();
+        System.out.println("-- welcome to ledge page --");
     System.out.println("a , display all transaction");
     System.out.println("d , display all the deposits");
     System.out.println("p , display all the payment");
     System.out.println("r , navigate to reports");
     System.out.print(" please enter option ");
+
     //String userChoiceOfLetter = scanner.nextLine();
 
     //while (true){
@@ -139,7 +147,14 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
         else {
             System.out.println(" please enter either a , d , p , r");
         }
+
+        goBackToHomeScreen(userTransaction,scanner);
     }
+}
+public static void exitTheApplication(ArrayList<userInfo>useraTranaction, Scanner scanner){
+    System.out.println("Thank you for using the application");
+    System.exit(0);
+
 }
 public  static ArrayList<userInfo> loadTransaction(String fileName ){
         ArrayList<userInfo> userTransaction=new ArrayList<>();
@@ -338,7 +353,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
             System.out.println("A, custom search by amount");
             System.out.print("please choose an option");
             String userChoiceOfLetter=scanner.nextLine();
-               // while(true){
+
                 if (userChoiceOfLetter.equalsIgnoreCase("s")){
                   customByStartDate(userTransaction,scanner) ;
                   goBackToHomeScreen(userTransaction,scanner);
@@ -364,7 +379,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
                     goBackToHomeScreen(userTransaction,scanner);
                 }
 
-           // }
+
         }
         public static void  customByStartDate(ArrayList<userInfo> usertransaction,Scanner scanner){
             //System.out.println("--- custom by start date show transactions after given date---");
