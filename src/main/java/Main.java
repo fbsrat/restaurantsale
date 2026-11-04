@@ -346,7 +346,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
                     customByEndDate(userTransaction,scanner);
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("d")){
-                    customByDescriptio( userTransaction,scanner);
+                    customByDescription( userTransaction,scanner);
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("v")){
                     customByVendor(userTransaction,scanner);
@@ -360,9 +360,8 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
 
             }
         }
-
         public static void  customByStartDate(ArrayList<userInfo> usertransaction,Scanner scanner){
-            System.out.println("--- custom by start date show transactions after given date---");
+            //System.out.println("--- custom by start date show transactions after given date---");
             System.out.print("please enter the date(yyyy-MM-dd)");
             LocalDate startDate=LocalDate.parse(scanner.nextLine().trim());
         for (userInfo info  : usertransaction ){
@@ -373,15 +372,59 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction,Scanner
         }
         public static void customByEndDate(ArrayList<userInfo>userTransaction,Scanner scanner){
             System.out.println();
-
+            System.out.println("--custom search  by end date(yyyy-MM-dd");
+            LocalDate endDate=LocalDate.parse(scanner.nextLine().trim());
+            for (userInfo info :userTransaction){
+                if ((!info.getDate().isAfter(endDate))){
+                    System.out.println(info);
+                }
+            }
         }
-        public static void customByDescriptio(ArrayList<userInfo> userTranaction , Scanner scanner){
-
+        public static void customByDescription(ArrayList<userInfo> userTransaction , Scanner scanner){
+            System.out.print("---please enter the description name--- ");
+            String description = scanner.nextLine();
+            boolean found = false;
+            for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                userInfo info = userTransaction.get(i);
+                if (info.getDescriptionOfPayment().equalsIgnoreCase(description)) {
+                    System.out.println(info);
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println(" no transaction found");
+            }
         }
-        public static void customByVendor(ArrayList<userInfo>usetTranaction,Scanner scanner){
+        public static void customByVendor(ArrayList<userInfo>userTransaction,Scanner scanner) {
+            System.out.print("---please enter the vendor name--- ");
+            String vendorName = scanner.nextLine();
+            boolean found = false;
+            for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                userInfo info = userTransaction.get(i);
+                if (info.getVendor().equalsIgnoreCase(vendorName)) {
+                    System.out.println(info);
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println(" no transaction found");
+            }
 
         }
         public static void customByAmount(ArrayList<userInfo>userTransaction,Scanner scanner){
+            System.out.print("---please enter the amount--- ");
+            double amount = Double.parseDouble(scanner.nextLine().trim());
+            boolean found = false;
+            for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                userInfo info = userTransaction.get(i);
+                if (info.getAmount()==amount) {
+                    System.out.println(info);
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println(" no transaction found");
+            }
 
         }
 public static void goBackToHomeScreen(ArrayList<userInfo> userTransaction,Scanner scanner){
