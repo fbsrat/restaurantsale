@@ -461,45 +461,109 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                 System.out.println(" no transaction found");
             }
         }
-
-        public static void yearToDate(ArrayList<userInfo> userTransaction , Scanner scanner){
-        LocalDate today=LocalDate.now();
-        LocalDate firstDayOfTheTear=today.withDayOfYear(1);
-        boolean found=false;
-
-            for (int i =userTransaction.size()-1;i>=0;i--) {
-                userInfo info = userTransaction.get(i);
-                LocalDate date = info.getDate();
-                if ((!date.isBefore(firstDayOfTheTear)&&!date.isAfter(today))){
-                    System.out.println(info);
-                    found=true;
+//asks the user to enter the year and show all transactions that happened after january 1st
+        public static void yearToDate(ArrayList<userInfo> userTransaction , Scanner scanner) {
+            // create a variable
+            Year enteredYear;
+            // keep asking the user to enter valid year
+            while (true) {
+                // asks the user to enter the year
+                System.out.println("please enter the year int (yyyy) format ,2026");
+                // reads the input and remove extra  spaces
+                String input = scanner.nextLine().trim();
+                try {
+                    // turn the text like string to year
+                    enteredYear = Year.parse(input);
+                    //the year is valid so leave the loop
+                    break;
+                } catch (DateTimeParseException e) {
+                    //the  text was not valid year so enter the correct year
+                    System.out.println(" please enter the year in the correct format, (yyyy)");
                 }
-                if (!found){
-                    System.out.println("transaction not found");
-                }
-
             }
-            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
-        }
+                // find the first day of the year
+                LocalDate firstDayOfTheTear = enteredYear.atDay(1);
+                // get todays date
+                LocalDate today = LocalDate.now();
+                // nothing found yet
+                boolean found = false;
+// go through transactions from newest to oldest
+                for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                    // get the transaction at posotion i
+                    userInfo info = userTransaction.get(i);
+                    // get the transactions date
+                    LocalDate date = info.getDate();
+                    //check if the day is  between january and today
+                    if ((!date.isBefore(firstDayOfTheTear) && !date.isAfter(today))) {
+                        System.out.println(info);
+                        found = true;
+
+                    }
+                    if (!found) {
+                        System.out.println("transaction not found");
+                    }
+                }
+            }
+// asks the user for a year , then shows all transactions a year before
         public static void previousYear(ArrayList< userInfo> userTransaction ,Scanner scanner){
-        Year lastYear=Year.now().minusYears(1);
+        // create a variable
+        Year enteredYear;
+        while(true){
+            // keep asking until the user types valid year format
+            System.out.println(" please enter the year in format (yyyy)");
+            // reads the input and removes extra spaces
+            String input=scanner.nextLine().trim();
+            try{
+               enteredYear=Year.parse(input) ;
+                // change the input in to real year
+                break;
+                // the year is valid , so leave the while loop
+            }
+            catch (DateTimeParseException e){
+                // asks to enter the valid format
+                System.out.println("please enter the valid year format(yyyy)");
+            }
+        }
+        // go back one year from the user entered
+        Year lastYear=enteredYear.minusYears(1);
+        // nothing found yet
         boolean found = false;
+        // go true all transactions from newest to oldest
             for (int i =userTransaction.size()-1;i>=0;i--) {
+                // get the transaction at position i
                 userInfo info = userTransaction.get(i);
+                // get the  year of this transaction
                 Year transactionYear=Year.from(info.getDate());
+                // checks if the transaction happened in previous year
                 if(transactionYear.equals(lastYear)){
                     System.out.println(info);
+                    // print the info
                     found=true;
                 }
             }
             if (!found){
+                // shows no tranasction happened
                 System.out.println("no transaction found");
             }
-            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
-        public static void searchByVendor(ArrayList<userInfo>userTransaction, Scanner scanner){
-            System.out.print("---please enter the vendor name--- ");
-            String vendorName=scanner.nextLine();
+        // asks the user vendor name and shows all tranaction from that vendor
+        public static void searchByVendor(ArrayList<userInfo>userTransaction, Scanner scanner) {
+            String vendorName;
+            // create a variable
+            while (true) {
+                //keep asking  the user to enter vendor name
+                System.out.print("---please enter the vendor name--- ");
+                // asks the user to enter the vendor name
+                vendorName = scanner.nextLine().trim();
+                // reads the vendor name and removes extra space
+                if (!vendorName.isEmpty()) {
+                    // if the user types something leave the loop
+                    break;
+
+                }
+                System.out.println(" vendor name cannot be empty");
+                //if user didnt type anything
+            }
             boolean found = false;
             for (int i =userTransaction.size()-1;i>=0;i--){
                 userInfo info = userTransaction.get(i);
@@ -535,23 +599,23 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
 
                 if (userChoiceOfLetter.equalsIgnoreCase("s")){
                   customByStartDate(userTransaction,scanner) ;
-                  goBackToHomePage(userTransaction,scanner);
+
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("e")){
                     customByEndDate(userTransaction,scanner);
-                    goBackToHomePage(userTransaction,scanner);
+
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("d")){
                     customByDescription( userTransaction,scanner);
-                    goBackToHomePage(userTransaction,scanner);
+
                 }
                 else if (userChoiceOfLetter.equalsIgnoreCase("v")){
                     customByVendor(userTransaction,scanner);
-                    goBackToHomePage(userTransaction,scanner);
+
                 }
                 else if  (userChoiceOfLetter.equalsIgnoreCase("a")){
                     customByAmount(userTransaction,scanner);
-                    goBackToHomePage(userTransaction,scanner);
+
                 }
                 else{
                     System.out.println(" please enter letter either s,e,d,v,a");
@@ -559,11 +623,26 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                 }
 
         whatDoesTheUserWantsToDoNext(userTransaction,scanner);
-    }
+    }// asks the user for the start date and show all transactions happened  after that date2
         public static void  customByStartDate(ArrayList<userInfo> userTransaction,Scanner scanner){
-            //System.out.println("--- custom by start date show transactions after given date---");
-            System.out.print("please enter the date(yyyy-MM-dd)");
-            LocalDate startDate=LocalDate.parse(scanner.nextLine().trim());
+            System.out.println("--- custom by start date show transactions after given date---");
+        LocalDate startDate;
+        // create a variable
+            while (true) {
+                System.out.print("please enter the date(yyyy-MM-dd)");
+                String input=scanner.nextLine().trim();
+            // reads the input and removes extra space
+                try {
+                    startDate=LocalDate.parse(input);
+                    // change the input in to thr read date
+                    break;
+                    //the date is valid
+                }
+                catch (DateTimeParseException e){
+                    System.out.println(" please enter in the correct  format(yyyy-MM-dd) ");
+                }
+
+            }
         for (userInfo info  : userTransaction ) {
             if (!info.getDate().isBefore(startDate)) {
                 System.out.println(info);
@@ -571,7 +650,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
         }
         whatDoesTheUserWantsToDoNext(userTransaction,scanner);
         }
-
+//
         public static void customByEndDate(ArrayList<userInfo>userTransaction,Scanner scanner){
             System.out.println();
             System.out.println("--custom search  by end date(yyyy-MM-dd");
