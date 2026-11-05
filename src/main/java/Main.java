@@ -1,8 +1,7 @@
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Year;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -115,7 +114,6 @@ goBackToHomePage(userTransaction,scanner);
         }
 }
 public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scanner) {
-
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
     String date1 = date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
@@ -235,9 +233,7 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
     System.out.println("p , display all the payment");
     System.out.println("r , navigate to reports");
     System.out.print(" please enter option ");
-    //String userChoiceOfLetter = scanner.nextLine();
 
-    //while (true){
     boolean running=true;
     while (running){
         String userChoiceOfLetter = scanner.nextLine();
@@ -263,31 +259,33 @@ public static void exitTheApplication(ArrayList<userInfo>useraTranaction , Scann
     System.exit(0);
 
 }
-public  static ArrayList<userInfo> loadTransaction(String fileName ){
-        ArrayList<userInfo> userTransaction=new ArrayList<>();
+public  static ArrayList<userInfo> loadTransaction(String fileName ) {
+    ArrayList<userInfo> userTransaction = new ArrayList<>();
     //ArrayList<userInfo>userTransaction = loadTransaction(String fileName);
-    DateTimeFormatter dateFormat=DateTimeFormatter.ofPattern("M-d-yyyy");
-    DateTimeFormatter timeFormat=DateTimeFormatter.ofPattern("h:mm:ss a", Locale.US);
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M-d-yyyy");
+    DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a", Locale.US);
 
-    try (BufferedReader reader = new BufferedReader(new FileReader( fileName))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
         reader.readLine(); // skip the header line
         String line;
+
         while ((line = reader.readLine()) != null) {
-           // LocalDate date=LocalDate.now();
-           // LocalTime time=LocalTime.now();
-            String[] parts = line.split("\\|");
-            LocalDate date =LocalDate.parse(parts[0].trim().toUpperCase(),dateFormat);
-            LocalTime time=LocalTime.parse(parts[1].trim().toUpperCase(),timeFormat);
-           // String time2 = parts[1];
-            String descriptionOfPayment = parts[2].trim();
-            String vendor = parts[3].trim();
-            double amount=Double.parseDouble(parts[4].trim());
-            userTransaction.add(new userInfo(date, time , descriptionOfPayment,vendor,amount));
+            try {
+                String[] parts = line.split("\\|");
+                LocalDate date = LocalDate.parse(parts[0].trim().toUpperCase(), dateFormat);
+                LocalTime time = LocalTime.parse(parts[1].trim().toUpperCase(), timeFormat);
+                String descriptionOfPayment = parts[2].trim();
+                String vendor = parts[3].trim();
+                double amount = Double.parseDouble(parts[4].trim());
+                userTransaction.add(new userInfo(date, time, descriptionOfPayment, vendor, amount));
+            } catch (Exception e) {
+                System.out.println(" skipping bad line" + line);
+            }
         }
     }
-    catch (IOException e){
-        System.out.println("Could not load " + fileName + ": " + e.getMessage());
-    }
+    catch(IOException e){
+            System.out.println("Could not load " + fileName + ": " + e.getMessage());
+      }
     return userTransaction;
 }
 public static void showAllEntries(ArrayList<userInfo>userTransaction, Scanner scanner){
@@ -316,7 +314,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
 
         }
     }
-    whatDoesTheUserWantsToDoNext(userTransaction,scanner);
+
 }
         public static void navigateToReports (ArrayList<userInfo> userTransaction, Scanner scanner) {
             System.out.println("-----welcome to report screen----");
@@ -339,7 +337,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             System.out.println("5, search by vendor");
             System.out.println("6, custom search");
             System.out.println("0, back to ledger page");
-            System.out.print("please choose an option ");
+            //System.out.print("please choose an option ");
             while (true) {
                 String usersChoiceOfChoice = scanner.nextLine();
                 try{
@@ -367,35 +365,55 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                  else {
                     System.out.println("please enter numbers 0 to 6");
                 }
-
-            whatDoesTheUserWantsToDoNext(userTransaction, scanner);
-
         }
     }
+        public static void monthToDate(ArrayList<userInfo>userTransaction,Scanner scanner) {
+            LocalDate endDate;
+            while (true) {
+                System.out.println(" please enter a date(yyyy-MM-dd)");
+                String input = scanner.nextLine().trim();
+                try {
+                    endDate = LocalDate.parse(input);
+                    break;
 
-        public static void monthToDate(ArrayList<userInfo>userTransaction,Scanner scanner){
-      LocalDate  today=LocalDate.now();
-      LocalDate firstDaYOfMonth= today.withDayOfMonth(1);
-            for (int i =userTransaction.size()-1;i>=0;i--) {
-                userInfo info = userTransaction.get(i);
-                LocalDate date = info.getDate();
-                boolean found=true;
-                if (!date.isBefore(firstDaYOfMonth) && !date.isAfter(today)) {
-                    System.out.println(info);
-                    found=true;
+                } catch (DateTimeException e) {
+
+                    System.out.println(" wrong format please enter in (yyyy-MM-dd) format");
                 }
-            if(!found) {
-                    System.out.println(" no transaction found");
+
+            }
+            LocalDate firstDaYOfMonth = endDate.withDayOfMonth(1);
+            boolean found = false;
+                for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                    userInfo info = userTransaction.get(i);
+                    LocalDate date = info.getDate();
+                    if (!date.isBefore(firstDaYOfMonth) && !date.isAfter(endDate)) {
+                        System.out.println(info);
+                        found = true;
+                    }
+                    if (!found) {
+                        System.out.println(" no transaction found");
+                    }
                 }
             }
 
-            whatDoesTheUserWantsToDoNext(userTransaction,scanner);
-        }
         public static void previousMonth(ArrayList<userInfo>userTransaction, Scanner scanner ){
-            LocalDate firstDay = LocalDate.now().minusMonths(1).withDayOfMonth(1);
-            LocalDate lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
-            boolean found = false;//adding boolean
+        YearMonth enteredMonth;
+        while (true) {
+            System.out.println("please enter the month in (yyyy-MM) format like 2024-11");
+            String input = scanner.nextLine().trim();
+            try {
+                enteredMonth = YearMonth.parse(input);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("please enter  in the correct format like (2024-11)");
+            }
+        }
+            YearMonth previous= enteredMonth.minusMonths(1);
+            LocalDate firstDay =previous.atDay(1);
+            LocalDate lastDay = previous.atEndOfMonth();
 
+            boolean found = false;//adding boolean
             for (int i =userTransaction.size()-1;i>=0;i--) {
                 userInfo info = userTransaction.get(i);
                 LocalDate date = info.getDate();
