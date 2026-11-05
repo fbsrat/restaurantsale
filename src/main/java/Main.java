@@ -115,7 +115,7 @@ goBackToHomePage(userTransaction,scanner);
         }
 }
 public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scanner) {
-    //LocalDateTime now=LocalDateTime.now();
+
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
     String date1 = date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
