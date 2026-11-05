@@ -293,7 +293,7 @@ public static void showAllEntries(ArrayList<userInfo>userTransaction, Scanner sc
         Collections.reverse(newTransactionFirst);
         for(int i=userTransaction.size()-1;i>=0;i--) {
             System.out.println(userTransaction.get(i));
-            //for (userInfo info :userTransaction)
+
         }
 whatDoesTheUserWantsToDoNext(userTransaction,scanner);
 }
