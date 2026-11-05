@@ -131,10 +131,17 @@ public static void addDeposit( ArrayList<UserInfo> userTransaction, Scanner scan
     String vendor = "";
     double amount =0;
     while (true){
-        descriptionOfPayment = scanner.nextLine().trim();
         System.out.println(" please enter the description");
+        descriptionOfPayment = scanner.nextLine().trim();
+        if (descriptionOfPayment.isEmpty()){
+            System.out.println(" description can not be empty,please enter the description");
+            continue;
+        }
         System.out.println("please enter the vendor name ");
         vendor = scanner.nextLine().trim();
+        if (vendor.isEmpty()){
+            System.out.println("vendor can not be empty,please enter the vendor  name ");
+
         while (true) {
             System.out.println("please enter the amount");
             String input = scanner.nextLine().trim();
@@ -147,6 +154,7 @@ public static void addDeposit( ArrayList<UserInfo> userTransaction, Scanner scan
             } catch (NumberFormatException e) {
                 System.out.println(" please enter number , like 30.34");
             }
+        }
         }
         System.out.println("description:" + descriptionOfPayment);
         System.out.println("vendor name:" + vendor);
@@ -161,7 +169,6 @@ public static void addDeposit( ArrayList<UserInfo> userTransaction, Scanner scan
         }
     }
     UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
-    userTransaction.add(deposit);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
         writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
         writer.newLine();
@@ -217,10 +224,11 @@ public static void addDeposit( ArrayList<UserInfo> userTransaction, Scanner scan
     }
     amount = -amount;
     UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
-    userTransaction.add(deposit);
+
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
         writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
         writer.newLine();
+        userTransaction.add(deposit);
         System.out.println(" your payment is saved successfully");
     } catch (IOException e) {
         System.out.println("error:" + e.getMessage());
@@ -354,8 +362,6 @@ public static void showAllThePayments(ArrayList<UserInfo>userTransaction ,Scanne
                 String usersChoiceOfChoice = scanner.nextLine();
                 try{
                 int userChoice = Integer.parseInt(usersChoiceOfChoice);
-
-                  userChoice=Integer.parseInt(usersChoiceOfChoice);
                 }
                 catch (NumberFormatException e){
                     System.out.println("please enter numbers 1 to 6");
@@ -756,7 +762,7 @@ public static void showAllThePayments(ArrayList<UserInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 
-public static System askTheUserWhereToGo(ArrayList<UserInfo> userTranaction,Scanner scanner) {
+public static Void askTheUserWhereToGo(ArrayList<UserInfo> userTranaction,Scanner scanner) {
         while ((true)){
             System.out.println(" what would you like to do next?");
             System.out.println("press (l), to go back to ledger page");
