@@ -3,7 +3,6 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -24,7 +23,7 @@ ledger screen --showallentries() shows user all our transaction , should show us
 public class Main {
     public static void main(String[] args) {
         //main method where the programs start running
-        ArrayList<userInfo> userTransaction = loadTransaction(
+        ArrayList<UserInfo> userTransaction = loadTransaction(
                 "src/main/java/transaction.csv");
         //load all the transaction from the file
         //each line in the file becomes one userinfo object
@@ -36,7 +35,7 @@ public class Main {
                 // show ledge screen
 
    }
-    public static void homePage(ArrayList<userInfo> userTransaction,Scanner scanner){
+    public static void homePage(ArrayList<UserInfo> userTransaction,Scanner scanner){
         System.out.println("----------welcome to the Abyssinia transactions application----------");
         //prints welcome banner
         System.out.println();
@@ -78,7 +77,7 @@ public class Main {
 
     }
 
-    public static void homeScreen( ArrayList <userInfo> userTransaction,Scanner scanner)
+    public static void homeScreen( ArrayList <UserInfo> userTransaction,Scanner scanner)
     //shows the home menu
     {
         String userChoiceOfLetter = ""; // asking the user to enter their   choice of letter
@@ -121,7 +120,7 @@ public class Main {
         }
        askTheUserWhereToGo(userTransaction,scanner);
 }
-public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scanner) {
+public static void addDeposit( ArrayList<UserInfo> userTransaction, Scanner scanner) {
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
     String date1 = date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
@@ -130,10 +129,10 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
     System.out.println("date and time for the transaction are automatically saved");
     String descriptionOfPayment = "";
     String vendor = "";
-    double amount = 0;
-    while (true) {
-        System.out.println(" please enter the description ");
+    double amount =0;
+    while (true){
         descriptionOfPayment = scanner.nextLine().trim();
+        System.out.println(" please enter the description");
         System.out.println("please enter the vendor name ");
         vendor = scanner.nextLine().trim();
         while (true) {
@@ -161,21 +160,20 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
             System.out.println(" its okay, re enter again");
         }
     }
-    userInfo deposit = new userInfo(date, time, descriptionOfPayment, vendor, amount);
+    UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
     userTransaction.add(deposit);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
         writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
         writer.newLine();
+        userTransaction.add(deposit);
+        System.out.println(" your file is saved successfully");
     } catch (IOException e) {
         System.out.println("error:" + e.getMessage());
     }
-    System.out.println(" your file is saved successfully");
-
-
     askTheUserWhereToGo(userTransaction, scanner);
 }
 
-    public static void makePayment(ArrayList<userInfo>userTransaction,Scanner scanner) {
+    public static void makePayment(ArrayList<UserInfo>userTransaction,Scanner scanner) {
 
     LocalDate date = LocalDate.now();
     LocalTime time = LocalTime.now();
@@ -218,7 +216,7 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
         }
     }
     amount = -amount;
-    userInfo deposit = new userInfo(date, time, descriptionOfPayment, vendor, amount);
+    UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
     userTransaction.add(deposit);
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
         writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
@@ -229,7 +227,7 @@ public static void addDeposit( ArrayList<userInfo> userTransaction, Scanner scan
     }
         askTheUserWhereToGo(userTransaction,scanner);
     }
-public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
+public static void ledger( ArrayList<UserInfo> userTransaction,Scanner scanner){
     while (true){
     System.out.println("-- welcome to ledge screen --");
     System.out.println(" The ledge screen helps user to see their all transactions including\n" +
@@ -270,13 +268,13 @@ public static void ledger( ArrayList<userInfo> userTransaction,Scanner scanner){
     }
 
 }
-public static void exitTheApplication(ArrayList<userInfo>useraTranaction , Scanner scanner){
+public static void exitTheApplication(ArrayList<UserInfo>useraTranaction , Scanner scanner){
     System.out.println("Thank you for using the application");
     System.exit(0);
 
 }
-public  static ArrayList<userInfo> loadTransaction(String fileName ) {
-    ArrayList<userInfo> userTransaction = new ArrayList<>();
+public  static ArrayList<UserInfo> loadTransaction(String fileName ) {
+    ArrayList<UserInfo> userTransaction = new ArrayList<>();
     //ArrayList<userInfo>userTransaction = loadTransaction(String fileName);
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M-d-yyyy");
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a", Locale.US);
@@ -293,7 +291,7 @@ public  static ArrayList<userInfo> loadTransaction(String fileName ) {
                 String descriptionOfPayment = parts[2].trim();
                 String vendor = parts[3].trim();
                 double amount = Double.parseDouble(parts[4].trim());
-                userTransaction.add(new userInfo(date, time, descriptionOfPayment, vendor, amount));
+                userTransaction.add(new UserInfo(date, time, descriptionOfPayment, vendor, amount));
             } catch (Exception e) {
                 System.out.println(" skipping bad line" + line);
             }
@@ -304,27 +302,25 @@ public  static ArrayList<userInfo> loadTransaction(String fileName ) {
       }
     return userTransaction;
 }
-public static void showAllEntries(ArrayList<userInfo>userTransaction, Scanner scanner){
-        ArrayList<userInfo> newTransactionFirst=new ArrayList<>(userTransaction);
-        Collections.reverse(newTransactionFirst);
+public static void showAllEntries(ArrayList<UserInfo>userTransaction, Scanner scanner){
         for(int i=userTransaction.size()-1;i>=0;i--) {
             System.out.println(userTransaction.get(i));
 
         }
     askTheUserWhereToGo(userTransaction,scanner);
 }
-public  static void displayAllTheDeposits(ArrayList<userInfo> userTransaction, Scanner scanner){
+public  static void displayAllTheDeposits(ArrayList<UserInfo> userTransaction, Scanner scanner){
         for (int i =userTransaction.size()-1;i>=0;i--){
-         userInfo info=userTransaction.get(i);
+         UserInfo info=userTransaction.get(i);
          if(info.getAmount()>0) {
              System.out.println(info);
             }
         }
     askTheUserWhereToGo(userTransaction,scanner);
 }
-public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanner scanner) {
+public static void showAllThePayments(ArrayList<UserInfo>userTransaction ,Scanner scanner) {
     for (int i = userTransaction.size() - 1; i >= 0; i--) {
-        userInfo info = userTransaction.get(i);
+        UserInfo info = userTransaction.get(i);
         if (info.getAmount() < 0) {
             System.out.println(info);
 
@@ -332,7 +328,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
     }
     askTheUserWhereToGo(userTransaction,scanner);
 }
-        public static void navigateToReports (ArrayList<userInfo> userTransaction, Scanner scanner) {
+        public static void navigateToReports (ArrayList<UserInfo> userTransaction, Scanner scanner) {
             System.out.println("-----welcome to report screen----");
             System.out.println("The report screen helps users to find review their transaction.\n" +
                     "they can search by date range,vendor name to see \n" +
@@ -387,7 +383,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
         }
     }
     //show all the transaction from the first of the month up to date the user enters
-        public static void monthToDate(ArrayList<userInfo>userTransaction,Scanner scanner) {
+        public static void monthToDate(ArrayList<UserInfo>userTransaction,Scanner scanner) {
         //create a variable
             LocalDate endDate;
             // keep asking until the user enters the valid date
@@ -415,7 +411,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             //go through transaction fron newest to oldest
                 for (int i = userTransaction.size() - 1; i >= 0; i--) {
                     //get that transaction at position i
-                    userInfo info = userTransaction.get(i);
+                    UserInfo info = userTransaction.get(i);
                     // get that transactions date
                     LocalDate date = info.getDate();
                     // check if the date is between the first day of the month and users date
@@ -432,7 +428,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
         // ask the user  for month , the show all transactions before it
-        public static void previousMonth(ArrayList<userInfo>userTransaction, Scanner scanner ) {
+        public static void previousMonth(ArrayList<UserInfo>userTransaction, Scanner scanner ) {
             // create a variable outside of loop
             YearMonth enteredMonth;
             // keep asking until thr user enters a valid month with the format
@@ -465,7 +461,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             // go through the transaction from newest to oldest
             for (int i = userTransaction.size() - 1; i >= 0; i--) {
                 // get the transaction at position i
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 //get that transaction date
                 LocalDate date = info.getDate();
                 //check if the date is between the first and last day of the previous month
@@ -482,7 +478,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 //asks the user to enter the year and show all transactions that happened after january 1st
-        public static void yearToDate(ArrayList<userInfo> userTransaction , Scanner scanner) {
+        public static void yearToDate(ArrayList<UserInfo> userTransaction , Scanner scanner) {
             // create a variable
             Year enteredYear;
             // keep asking the user to enter valid year
@@ -510,7 +506,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
 // go through transactions from newest to oldest
                 for (int i = userTransaction.size() - 1; i >= 0; i--) {
                     // get the transaction at posotion i
-                    userInfo info = userTransaction.get(i);
+                    UserInfo info = userTransaction.get(i);
                     // get the transactions date
                     LocalDate date = info.getDate();
                     //check if the day is  between january and today
@@ -519,14 +515,15 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                         found = true;
 
                     }
+                }
                     if (!found) {
                         System.out.println("transaction not found");
-                    }
+
                 }
             askTheUserWhereToGo(userTransaction,scanner);
         }
 // asks the user for a year , then shows all transactions a year before
-        public static void previousYear(ArrayList< userInfo> userTransaction ,Scanner scanner){
+        public static void previousYear(ArrayList< UserInfo> userTransaction ,Scanner scanner){
         // create a variable
         Year enteredYear;
         while(true){
@@ -552,7 +549,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
         // go true all transactions from newest to oldest
             for (int i =userTransaction.size()-1;i>=0;i--) {
                 // get the transaction at position i
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 // get the  year of this transaction
                 Year transactionYear=Year.from(info.getDate());
                 // checks if the transaction happened in previous year
@@ -569,7 +566,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
         // asks the user vendor name and shows all tranaction from that vendor
-        public static void searchByVendor(ArrayList<userInfo>userTransaction, Scanner scanner) {
+        public static void searchByVendor(ArrayList<UserInfo>userTransaction, Scanner scanner) {
             String vendorName;
             // create a variable
             while (true) {
@@ -588,7 +585,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             }
             boolean found = false;
             for (int i =userTransaction.size()-1;i>=0;i--){
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 if (info.getVendor().equalsIgnoreCase(vendorName)){
                     System.out.println(info);
                     found=true;
@@ -600,7 +597,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 
-        public static void customSearch(ArrayList<userInfo>userTransaction,Scanner scanner) {
+        public static void customSearch(ArrayList<UserInfo>userTransaction,Scanner scanner) {
 
             System.out.println();
             System.out.println("---welcome to the custom search---");
@@ -642,7 +639,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
         }
 
     // asks the user for the start date and show all transactions happened  after that date2
-        public static void  customByStartDate(ArrayList<userInfo> userTransaction,Scanner scanner){
+        public static void  customByStartDate(ArrayList<UserInfo> userTransaction,Scanner scanner){
             System.out.println("--- custom by start date show transactions after given date---");
         LocalDate startDate;
         // create a variable
@@ -661,7 +658,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
                 }
 
             }
-        for (userInfo info  : userTransaction ) {
+        for (UserInfo info  : userTransaction ) {
             if (!info.getDate().isBefore(startDate)) {
                 System.out.println(info);
             }
@@ -669,7 +666,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 // the user for an end date , then shows all transactions on before that date
-        public static void customByEndDate(ArrayList<userInfo>userTransaction,Scanner scanner){
+        public static void customByEndDate(ArrayList<UserInfo>userTransaction,Scanner scanner){
         LocalDate endDate;
         // create a variable
          while (true) {
@@ -685,7 +682,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
              }
          }
          boolean found= false;
-            for (userInfo info :userTransaction){
+            for (UserInfo info :userTransaction){
                 if ((!info.getDate().isAfter(endDate))){
                     System.out.println(info);
                     found=true;
@@ -697,12 +694,12 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 // asks a description and shows all the transcations by that description
-        public static void customByDescription(ArrayList<userInfo> userTransaction , Scanner scanner){
+        public static void customByDescription(ArrayList<UserInfo> userTransaction , Scanner scanner){
             System.out.print("---please enter the description name--- ");
             String description = scanner.nextLine();
             boolean found = false;
             for (int i = userTransaction.size() - 1; i >= 0; i--) {
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 if (info.getDescriptionOfPayment().equalsIgnoreCase(description)) {
                     System.out.println(info);
                     found = true;
@@ -713,12 +710,12 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             }
             askTheUserWhereToGo(userTransaction,scanner);
         }
-        public static void customByVendor(ArrayList<userInfo>userTransaction,Scanner scanner) {
+        public static void customByVendor(ArrayList<UserInfo>userTransaction,Scanner scanner) {
             System.out.print("---please enter the vendor name--- ");
             String vendorName = scanner.nextLine();
             boolean found = false;
             for (int i = userTransaction.size() - 1; i >= 0; i--) {
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 if (info.getVendor().equalsIgnoreCase(vendorName)) {
                     System.out.println(info);
                     found = true;
@@ -729,7 +726,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             }
             askTheUserWhereToGo(userTransaction,scanner);
         }
-        public static void customByAmount(ArrayList<userInfo>userTransaction,Scanner scanner){
+        public static void customByAmount(ArrayList<UserInfo>userTransaction,Scanner scanner){
         double amount;
         // create a  variable
             while(true) {
@@ -747,7 +744,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
 
             boolean found = false;
             for (int i = userTransaction.size() - 1; i >= 0; i--) {
-                userInfo info = userTransaction.get(i);
+                UserInfo info = userTransaction.get(i);
                 if (info.getAmount()==amount) {
                     System.out.println(info);
                     found = true;
@@ -759,7 +756,7 @@ public static void showAllThePayments(ArrayList<userInfo>userTransaction ,Scanne
             askTheUserWhereToGo(userTransaction,scanner);
         }
 
-public static System askTheUserWhereToGo(ArrayList<userInfo> userTranaction,Scanner scanner) {
+public static System askTheUserWhereToGo(ArrayList<UserInfo> userTranaction,Scanner scanner) {
         while ((true)){
             System.out.println(" what would you like to do next?");
             System.out.println("press (l), to go back to ledger page");

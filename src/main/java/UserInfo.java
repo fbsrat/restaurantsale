@@ -2,14 +2,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Locale;
 
-public class userInfo {
+
+public class UserInfo {
     private LocalTime time;
     private LocalDate date;
     private String descriptionOfPayment;
     private String vendor;
     private double amount;
 
-    public userInfo( LocalDate date, LocalTime time, String descriptionOfPayment, String vendor, double amount) {
+    public UserInfo( LocalDate date, LocalTime time, String descriptionOfPayment, String vendor, double amount) {
         this.time = time;
         this.date = date;
         this.descriptionOfPayment = descriptionOfPayment;
