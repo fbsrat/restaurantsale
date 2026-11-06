@@ -32,7 +32,6 @@ public class TransactionManager {
             if (vendor.isEmpty()) {
                 System.out.println("vendor can not be empty,please enter the vendor  name ");
             }
-            while (true) {
                 System.out.println("please enter the amount");
                 String input = scanner.nextLine().trim();
                 try {
@@ -45,7 +44,7 @@ public class TransactionManager {
                     System.out.println(" please enter number , like 30.34");
                 }
 
-            }
+
             System.out.println("description:" + descriptionOfPayment);
             System.out.println("vendor name:" + vendor);
             System.out.println("amount:" + amount);
