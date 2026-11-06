@@ -43,8 +43,6 @@ public class TransactionManager {
                 } catch (NumberFormatException e) {
                     System.out.println(" please enter number , like 30.34");
                 }
-
-
             System.out.println("description:" + descriptionOfPayment);
             System.out.println("vendor name:" + vendor);
             System.out.println("amount:" + amount);
