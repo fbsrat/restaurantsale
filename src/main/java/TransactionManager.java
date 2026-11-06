@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -37,9 +38,9 @@ public class TransactionManager {
             String input = scanner.nextLine().trim();
             try {
                 amount = Double.parseDouble(input);
-                if (!!Double.isFinite(amount)||amount<= 0) {
-                System.out.println("amount must be greater  than 0 ");
-                continue;
+                if (!Double.isFinite(amount) || amount <= 0) {
+                    System.out.println("amount must be greater  than 0 ");
+                    continue;
                 }
             } catch (NumberFormatException e) {
                 System.out.println(" please enter number , like 30.34");
@@ -56,6 +57,8 @@ public class TransactionManager {
                 System.out.println(" its okay, re enter again");
             }
         }
+
+
         UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
             writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
@@ -93,12 +96,11 @@ public class TransactionManager {
                 System.out.println("vendor can not be empty,please enter the vendor  name ");
                 continue;
             }
-
             System.out.println("please enter the amount");
             String input = scanner.nextLine().trim();
             try {
-               amount = Double.parseDouble(input);
-                if (!Double.isFinite(amount ) ||amount<= 0) {
+                amount = Double.parseDouble(input);
+                if (!Double.isFinite(amount) || amount <= 0) {
                     //this rejects negative numbers , non numbers ,zero
                     System.out.println(" please enter valid positive number");
                     continue;
@@ -121,10 +123,8 @@ public class TransactionManager {
 
             }
         }
-
         amount = -amount;
         UserInfo deposit = new UserInfo(date, time, descriptionOfPayment, vendor, amount);
-
         try (
                 BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/transaction.csv", true))) {
             writer.write(date1 + "|" + time1 + "|" + descriptionOfPayment + "|" + vendor + "|" + amount);
@@ -136,6 +136,5 @@ public class TransactionManager {
             System.out.println("error:" + e.getMessage());
         }
         HomePage.askTheUserWhereToGo(userTransaction, scanner);
-
     }
 }
