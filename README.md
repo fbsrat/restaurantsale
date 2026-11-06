@@ -4,19 +4,32 @@ A Java console-based application that helps users record, save, and manage finan
 ##Features
 
 Add deposits and make payments
+
 View transaction history
+
 Search transactions
+
 Generate monthly and yearly reports
 
+
 Save transactions in a CSV file
+
 ##Technologies Used
+
 Java
+
 ArrayList
+
 File Handling (CSV)
+
 Object-Oriented Programming (OOP)
+
 ##How It Works
+
  Home Page
+ 
 Displays the main menu, allowing users to navigate to the Home Screen, Ledger, Help Menu, or exit the application
+
  #Home Screen
 
 Allows users to add deposits, make payments, or navigate to the Ledger
