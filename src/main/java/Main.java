@@ -5,7 +5,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
-
 /* this application is made to make a user to save transactions whether  it is adding deposit or
 making a payment and review their transactions . this file is located  in src/main/java/transaction.csv
 this application has two main screens which are home screen and ledge .
