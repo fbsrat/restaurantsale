@@ -4,8 +4,15 @@ import java.util.Scanner;
 public class HomePage {
 
     public static void homePage(ArrayList<UserInfo> userTransaction, Scanner scanner) {
-        System.out.println("----------welcome to the Abyssinia transactions application----------");
+        System.out.println("=======================================" +
+                "======================================");
+        System.out.println();
+        System.out.println("----------welcome to the Ade resturant  " +
+                "transactions application----------");
+        System.out.println();
         //prints welcome banner
+        System.out.println("\" Ade\" means mother in tigrigna ");
+        System.out.println("===============================================");
         System.out.println();
         // print empty line
         System.out.println(//prints menu options
