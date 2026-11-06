@@ -59,7 +59,7 @@ Displays instructions and available options to help users navigate the applicati
 Transactions are saved in a CSV file and loaded into an ArrayList when the application starts, allowing users to access previously saved transactions.
 
 ##how to run the application
-Download or clone the project from GitHub.
+Download or clone the project from GitHub:'''git clone https://github.com/fbsrat/restaurantsale/tree/master/src/main/java.git'''
 
 Open the project in IntelliJ IDEA or another Java IDE.
 
