@@ -46,6 +46,4 @@ public class HomeScreen {
         }
         HomePage.askTheUserWhereToGo(userTransaction,scanner);
     }
-
-
 }
