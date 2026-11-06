@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Reports {
 
-    public static void navigateToReports (ArrayList<UserInfo> userTransaction, Scanner scanner) {
+    public static void navigateToReports(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         System.out.println("-----welcome to report screen----");
         System.out.println("The report screen helps users to find review their transaction.\n" +
                 "they can search by date range,vendor name to see \n" +
@@ -32,10 +32,9 @@ public class Reports {
         //System.out.print("please choose an option ");
         while (true) {
             String usersChoiceOfChoice = scanner.nextLine();
-            try{
+            try {
                 int userChoice = Integer.parseInt(usersChoiceOfChoice);
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("please enter numbers 1 to 6");
                 continue;
             }
@@ -51,17 +50,16 @@ public class Reports {
                 searchByVendor(userTransaction, scanner);
             } else if (usersChoiceOfChoice.equals("6")) {
                 customSearch(userTransaction, scanner);
-            }
-            else if(usersChoiceOfChoice.equals("0")){
-              Ledge.ledger(userTransaction,scanner);
-            }
-            else {
+            } else if (usersChoiceOfChoice.equals("0")) {
+                Ledge.ledger(userTransaction, scanner);
+            } else {
                 System.out.println("please enter numbers 0 to 6");
             }
         }
     }
+
     //show all the transaction from the first of the month up to date the user enters
-    public static void monthToDate(ArrayList<UserInfo>userTransaction,Scanner scanner) {
+    public static void monthToDate(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         //create a variable
         LocalDate endDate;
         // keep asking until the user enters the valid date
@@ -103,10 +101,11 @@ public class Reports {
         if (!found) {
             System.out.println(" no transaction found");
         }
-    HomePage .askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     // ask the user  for month , the show all transactions before it
-    public static void previousMonth(ArrayList<UserInfo>userTransaction, Scanner scanner ) {
+    public static void previousMonth(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         // create a variable outside of loop
         YearMonth enteredMonth;
         // keep asking until thr user enters a valid month with the format
@@ -153,10 +152,11 @@ public class Reports {
             // shows that no transaction found
             System.out.println(" no transaction found");
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     //asks the user to enter the year and show all transactions that happened after january 1st
-    public static void yearToDate(ArrayList<UserInfo> userTransaction , Scanner scanner) {
+    public static void yearToDate(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         // create a variable
         Year enteredYear;
         // keep asking the user to enter valid year
@@ -198,53 +198,54 @@ public class Reports {
             System.out.println("transaction not found");
 
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     // asks the user for a year , then shows all transactions a year before
-    public static void previousYear(ArrayList< UserInfo> userTransaction ,Scanner scanner){
+    public static void previousYear(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         // create a variable
         Year enteredYear;
-        while(true){
+        while (true) {
             // keep asking until the user types valid year format
             System.out.println(" please enter the year in format (yyyy)");
             // reads the input and removes extra spaces
-            String input=scanner.nextLine().trim();
-            try{
-                enteredYear=Year.parse(input) ;
+            String input = scanner.nextLine().trim();
+            try {
+                enteredYear = Year.parse(input);
                 // change the input in to real year
                 break;
                 // the year is valid , so leave the while loop
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 // asks to enter the valid format
                 System.out.println("please enter the valid year format(yyyy)");
             }
         }
         // go back one year from the user entered
-        Year lastYear=enteredYear.minusYears(1);
+        Year lastYear = enteredYear.minusYears(1);
         // nothing found yet
         boolean found = false;
         // go true all transactions from newest to oldest
-        for (int i =userTransaction.size()-1;i>=0;i--) {
+        for (int i = userTransaction.size() - 1; i >= 0; i--) {
             // get the transaction at position i
             UserInfo info = userTransaction.get(i);
             // get the  year of this transaction
-            Year transactionYear=Year.from(info.getDate());
+            Year transactionYear = Year.from(info.getDate());
             // checks if the transaction happened in previous year
-            if(transactionYear.equals(lastYear)){
+            if (transactionYear.equals(lastYear)) {
                 System.out.println(info);
                 // print the info
-                found=true;
+                found = true;
             }
         }
-        if (!found){
+        if (!found) {
             // shows no tranasction happened
             System.out.println("no transaction found");
         }
-       HomePage. askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     // asks the user vendor name and shows all tranaction from that vendor
-    public static void searchByVendor(ArrayList<UserInfo>userTransaction, Scanner scanner) {
+    public static void searchByVendor(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         String vendorName;
         // create a variable
         while (true) {
@@ -262,20 +263,20 @@ public class Reports {
             //if user didnt type anything
         }
         boolean found = false;
-        for (int i =userTransaction.size()-1;i>=0;i--){
+        for (int i = userTransaction.size() - 1; i >= 0; i--) {
             UserInfo info = userTransaction.get(i);
-            if (info.getVendor().equalsIgnoreCase(vendorName)){
+            if (info.getVendor().equalsIgnoreCase(vendorName)) {
                 System.out.println(info);
-                found=true;
+                found = true;
             }
         }
-        if(!found){
+        if (!found) {
             System.out.println(" no transaction found");
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
 
-    public static void customSearch(ArrayList<UserInfo>userTransaction,Scanner scanner) {
+    public static void customSearch(ArrayList<UserInfo> userTransaction, Scanner scanner) {
 
         System.out.println();
         System.out.println("---welcome to the custom search---");
@@ -313,66 +314,66 @@ public class Reports {
             System.out.println(" please enter letter either s,e,d,v,a");
 
         }
-       HomePage. askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
 
     // asks the user for the start date and show all transactions happened  after that date2
-    public static void  customByStartDate(ArrayList<UserInfo> userTransaction,Scanner scanner){
+    public static void customByStartDate(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         System.out.println("--- custom by start date show transactions after given date---");
         LocalDate startDate;
         // create a variable
         while (true) {
             System.out.print("please enter the date(yyyy-MM-dd)");
-            String input=scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
             // reads the input and removes extra space
             try {
-                startDate=LocalDate.parse(input);
+                startDate = LocalDate.parse(input);
                 // change the input in to thr read date
                 break;
                 //the date is valid
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println(" please enter in the correct  format(yyyy-MM-dd) ");
             }
 
         }
-        for (UserInfo info  : userTransaction ) {
+        for (UserInfo info : userTransaction) {
             if (!info.getDate().isBefore(startDate)) {
                 System.out.println(info);
             }
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     // the user for an end date , then shows all transactions on before that date
-    public static void customByEndDate(ArrayList<UserInfo>userTransaction,Scanner scanner){
+    public static void customByEndDate(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         LocalDate endDate;
         // create a variable
         while (true) {
             System.out.println("--custom search  by end date(yyyy-MM-dd");
-            String  input  = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
             // reads the input and removes extra  spaces
             try {
-                endDate=LocalDate.parse(input);
+                endDate = LocalDate.parse(input);
                 break;
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println(" please enter the correct format (yyyy-MM-dd");
             }
         }
-        boolean found= false;
-        for (UserInfo info :userTransaction){
-            if ((!info.getDate().isAfter(endDate))){
+        boolean found = false;
+        for (UserInfo info : userTransaction) {
+            if ((!info.getDate().isAfter(endDate))) {
                 System.out.println(info);
-                found=true;
+                found = true;
             }
         }
-        if(!found){
+        if (!found) {
             System.out.println(" no transaction found");
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
+
     // asks a description and shows all the transcations by that description
-    public static void customByDescription(ArrayList<UserInfo> userTransaction , Scanner scanner){
+    public static void customByDescription(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         System.out.print("---please enter the description name--- ");
         String description = scanner.nextLine();
         boolean found = false;
@@ -386,9 +387,10 @@ public class Reports {
         if (!found) {
             System.out.println(" no transaction found");
         }
-        HomePage.askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
-    public static void customByVendor(ArrayList<UserInfo>userTransaction,Scanner scanner) {
+
+    public static void customByVendor(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         System.out.print("---please enter the vendor name--- ");
         String vendorName = scanner.nextLine();
         boolean found = false;
@@ -402,9 +404,10 @@ public class Reports {
         if (!found) {
             System.out.println(" no transaction found");
         }
-       HomePage. askTheUserWhereToGo(userTransaction,scanner);
+        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
-    public static void customByAmount(ArrayList<UserInfo>userTransaction,Scanner scanner) {
+
+    public static void customByAmount(ArrayList<UserInfo> userTransaction, Scanner scanner) {
         double amount;
         // create a  variable
         while (true) {
@@ -412,25 +415,28 @@ public class Reports {
             String input = scanner.nextLine().trim();
             try {
                 amount = Double.parseDouble(input);
-                break;
+                if (!Double.isFinite(amount) || amount <= 0) {
+                    System.out.println("please enter a valid positive number");
+                    continue;
+                }
+break;
             } catch (NumberFormatException e) {
                 System.out.println(" please enter number like 45.00");
             }
+
         }
 
-
-        boolean found = false;
-
-        for (int i = userTransaction.size() - 1; i >= 0; i--) {
-            UserInfo info = userTransaction.get(i);
-            if (info.getAmount() == amount) {
-                System.out.println(info);
-                found = true;
+            boolean found = false;
+            for (int i = userTransaction.size() - 1; i >= 0; i--) {
+                UserInfo info = userTransaction.get(i);
+                if (info.getAmount() == amount) {
+                    System.out.println(info);
+                    found = true;
+                }
             }
+            if (!found) {
+                System.out.println(" no transaction found");
+            }
+            HomePage.askTheUserWhereToGo(userTransaction, scanner);
         }
-        if (!found) {
-            System.out.println(" no transaction found");
-        }
-        HomePage.askTheUserWhereToGo(userTransaction, scanner);
     }
-}

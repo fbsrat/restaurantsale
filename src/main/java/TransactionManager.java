@@ -37,10 +37,10 @@ public class TransactionManager {
             String input = scanner.nextLine().trim();
             try {
                 amount = Double.parseDouble(input);
-                if (amount > 0) {
-                    break;
-                }
+                if (!!Double.isFinite(amount)||amount<= 0) {
                 System.out.println("amount must be greater  than 0 ");
+                continue;
+                }
             } catch (NumberFormatException e) {
                 System.out.println(" please enter number , like 30.34");
             }
@@ -97,11 +97,12 @@ public class TransactionManager {
             System.out.println("please enter the amount");
             String input = scanner.nextLine().trim();
             try {
-                amount = Double.parseDouble(input);
-                if (amount > 0) {
-                    break;
+               amount = Double.parseDouble(input);
+                if (!Double.isFinite(amount ) ||amount<= 0) {
+                    //this rejects negative numbers , non numbers ,zero
+                    System.out.println(" please enter valid positive number");
+                    continue;
                 }
-                System.out.println("amount must be greater  than 0 ");
             } catch (NumberFormatException e) {
                 System.out.println(" please enter number , like 30.34");
             }
