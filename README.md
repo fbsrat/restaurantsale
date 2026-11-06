@@ -1,5 +1,6 @@
 ##ade restaurant Transactions Application
 A Java console-based application that helps users record, save, and manage financial transactions
+
 ##Features
 
 Add deposits and make payments
